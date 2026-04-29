@@ -1,6 +1,6 @@
 package com.dailyq.service;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
 import com.dailyq.dto.LoginRequest;
 import com.dailyq.dto.LoginResponse;
 import com.dailyq.entity.User;
@@ -32,12 +32,12 @@ public class UserService {
     public LoginResponse login(LoginRequest request) {
         JSONObject session = weChatUtil.code2Session(request.getCode());
         
-        if (session.containsKey("errcode") && session.getInteger("errcode") != 0) {
-            throw new RuntimeException("微信登录失败: " + session.getString("errmsg"));
+        if (session.containsKey("errcode") && session.getInt("errcode") != 0) {
+            throw new RuntimeException("微信登录失败: " + session.getStr("errmsg"));
         }
         
-        String openId = session.getString("openid");
-        String unionId = session.getString("unionid");
+        String openId = session.getStr("openid");
+        String unionId = session.getStr("unionid");
         
         Optional<User> userOptional = userRepository.findByOpenId(openId);
         boolean isNewUser = !userOptional.isPresent();

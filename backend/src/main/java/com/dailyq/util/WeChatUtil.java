@@ -1,7 +1,8 @@
 package com.dailyq.util;
 
 import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.dailyq.config.WeChatConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,6 @@ public class WeChatUtil {
         String result = HttpUtil.get(url);
         log.info("微信登录响应: {}", result);
         
-        return JSONObject.parseObject(result);
+        return JSONUtil.parseObj(result);
     }
 }
