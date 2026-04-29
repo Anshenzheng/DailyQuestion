@@ -19,7 +19,7 @@ public class Question {
     @Column(name = "category")
     private String category = "daily";
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "TINYINT")
     private Integer status = 1;
 
     @Column(name = "used_count")

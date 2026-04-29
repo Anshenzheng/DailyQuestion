@@ -25,7 +25,7 @@ public class User {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @Column(name = "gender")
+    @Column(name = "gender", columnDefinition = "TINYINT")
     private Integer gender;
 
     @Column(name = "create_time")

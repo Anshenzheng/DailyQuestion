@@ -22,7 +22,7 @@ public class Admin {
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "TINYINT")
     private Integer status = 1;
 
     @Column(name = "create_time")
