@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyQ 管理员后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: #FFF8F3;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+            padding: 24px 32px;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(255, 140, 66, 0.2);
+        }
+
+        .header h1 {
+            color: #FFFFFF;
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .login-form {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(255, 140, 66, 0.08);
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .login-form h2 {
+            color: #333333;
+            font-size: 24px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #F5F5F5;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #333333;
+            background-color: #FAFAFA;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FF8C42;
+            background-color: #FFFFFF;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+            color: #FFFFFF;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #FF8C42;
+            border: 2px solid #FF8C42;
+        }
+
+        .btn-outline:hover {
+            background: #FFF5EB;
+        }
+
+        .btn-danger {
+            background: #FF4D4F;
+            color: #FFFFFF;
+        }
+
+        .btn-danger:hover {
+            background: #FF7875;
+        }
+
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 14px;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.show {
+            display: block;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(255, 140, 66, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-header h3 {
+            color: #333333;
+            font-size: 20px;
+        }
+
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .question-item {
+            padding: 20px;
+            background: #FFF8F3;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .question-content {
+            flex: 1;
+        }
+
+        .question-text {
+            color: #333333;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #999999;
+        }
+
+        .question-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #FFF0E5;
+            color: #FF8C42;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999999;
+        }
+
+        .empty-state .icon {
+            font-size: 60px;
+            margin-bottom: 16px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 32px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h3 {
+            color: #333333;
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999999;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .status-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-switch {
+            width: 48px;
+            height: 24px;
+            background: #CCCCCC;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .status-switch.active {
+            background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+        }
+
+        .status-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .status-switch.active::after {
+            left: 26px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background: #333333;
+            color: #FFFFFF;
+            border-radius: 8px;
+            z-index: 2000;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast.success {
+            background: #52C41A;
+        }
+
+        .toast.error {
+            background: #FF4D4F;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info span {
+            color: #FFFFFF;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>DailyQ 管理员后台</h1>
+                    <p>管理问题库，设置每日推送问题</p>
+                </div>
+                <div id="userInfo" class="user-info" style="display: none;">
+                    <span id="username"></span>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loginSection" class="login-form">
+            <h2>管理员登录</h2>
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="loginUsername" placeholder="请输入用户名" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary" onclick="login()">登录</button>
+        </div>
+
+        <div id="dashboard" class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <h3>问题列表</h3>
+                    <button class="btn btn-primary btn-sm" onclick="openAddModal()">添加问题</button>
+                </div>
+                <div id="questionList" class="question-list">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="questionModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">添加问题</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="questionForm">
+                <input type="hidden" id="questionId">
+                <div class="form-group">
+                    <label>问题内容 *</label>
+                    <textarea id="questionContent" placeholder="请输入问题内容" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>分类</label>
+                    <select id="questionCategory">
+                        <option value="daily">日常</option>
+                        <option value="work">工作</option>
+                        <option value="life">生活</option>
+                        <option value="emotion">情感</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>状态</label>
+                    <div class="status-toggle">
+                        <div id="statusSwitch" class="status-switch active" onclick="toggleStatus()"></div>
+                        <span id="statusText" style="color: #FF8C42;">启用</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const API_BASE = '/api';
+        let token = localStorage.getItem('adminToken');
+        let currentStatus = 1;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (token) {
+                showDashboard();
+                loadQuestions();
+            }
+
+            document.getElementById('questionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveQuestion();
+            });
+        });
+
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showToast('请输入用户名和密码', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_BASE + '/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    token = data.data.token;
+                    localStorage.setItem('adminToken', token);
+                    showToast('登录成功', 'success');
+                    showDashboard();
+                    loadQuestions();
+                } else {
+                    showToast(data.message || '登录失败', 'error');
+                }
+            } catch (err) {
+                showToast('网络错误，请稍后重试', 'error');
+            }
+        }
+
+        function logout() {
+            token = null;
+            localStorage.removeItem('adminToken');
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboard').classList.remove('show');
+            document.getElementById('userInfo').style.display = 'none';
+            showToast('已退出登录', 'success');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboard').classList.add('show');
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('username').textContent = '管理员';
+        }
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch(API_BASE + '/admin/questions', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    renderQuestionList(data.data || []);
+                } else if (data.code === 401) {
+                    logout();
+                } else {
+                    showToast(data.message || '加载失败', 'error');
+                }
+            } catch (err) {
+                showToast('网络错误，请稍后重试', 'error');
+            }
+        }
+
+        function renderQuestionList(questions) {
+            const container = document.getElementById('questionList');
+            
+            if (questions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📝</div>
+                        <div>暂无问题，点击上方按钮添加</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const categoryMap = {
+                'daily': '日常',
+                'work': '工作',
+                'life': '生活',
+                'emotion': '情感'
+            };
+
+            container.innerHTML = questions.map(q => `
+                <div class="question-item">
+                    <div class="question-content">
+                        <div class="question-text">${escapeHtml(q.content)}</div>
+                        <div class="question-meta">
+                            <span class="question-category">${categoryMap[q.category] || '日常'}</span>
+                            <span>使用次数: ${q.usedCount || 0}</span>
+                            <span style="color: ${q.status === 1 ? '#52C41A' : '#FF4D4F'};">
+                                ${q.status === 1 ? '启用' : '禁用'}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="question-actions">
+                        <button class="btn btn-outline btn-sm" onclick="editQuestion(${q.id})">编辑</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${q.id})">删除</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = '添加问题';
+            document.getElementById('questionId').value = '';
+            document.getElementById('questionContent').value = '';
+            document.getElementById('questionCategory').value = 'daily';
+            currentStatus = 1;
+            document.getElementById('statusSwitch').classList.add('active');
+            document.getElementById('statusText').textContent = '启用';
+            document.getElementById('questionModal').classList.add('show');
+        }
+
+        async function editQuestion(id) {
+            try {
+                const response = await fetch(API_BASE + '/admin/questions/' + id, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    const q = data.data;
+                    document.getElementById('modalTitle').textContent = '编辑问题';
+                    document.getElementById('questionId').value = q.id;
+                    document.getElementById('questionContent').value = q.content;
+                    document.getElementById('questionCategory').value = q.category;
+                    currentStatus = q.status;
+                    
+                    const switchEl = document.getElementById('statusSwitch');
+                    const textEl = document.getElementById('statusText');
+                    if (q.status === 1) {
+                        switchEl.classList.add('active');
+                        textEl.textContent = '启用';
+                    } else {
+                        switchEl.classList.remove('active');
+                        textEl.textContent = '禁用';
+                    }
+
+                    document.getElementById('questionModal').classList.add('show');
+                }
+            } catch (err) {
+                showToast('加载失败', 'error');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('questionModal').classList.remove('show');
+        }
+
+        function toggleStatus() {
+            const switchEl = document.getElementById('statusSwitch');
+            const textEl = document.getElementById('statusText');
+            
+            if (currentStatus === 1) {
+                currentStatus = 0;
+                switchEl.classList.remove('active');
+                textEl.textContent = '禁用';
+            } else {
+                currentStatus = 1;
+                switchEl.classList.add('active');
+                textEl.textContent = '启用';
+            }
+        }
+
+        async function saveQuestion() {
+            const id = document.getElementById('questionId').value;
+            const content = document.getElementById('questionContent').value;
+            const category = document.getElementById('questionCategory').value;
+
+            if (!content) {
+                showToast('请输入问题内容', 'error');
+                return;
+            }
+
+            const data = {
+                content: content,
+                category: category,
+                status: currentStatus
+            };
+
+            const url = id 
+                ? API_BASE + '/admin/questions/' + id
+                : API_BASE + '/admin/questions';
+            
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    showToast(id ? '更新成功' : '添加成功', 'success');
+                    closeModal();
+                    loadQuestions();
+                } else {
+                    showToast(result.message || '操作失败', 'error');
+                }
+            } catch (err) {
+                showToast('网络错误，请稍后重试', 'error');
+            }
+        }
+
+        async function deleteQuestion(id) {
+            if (!confirm('确定要删除这个问题吗？')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(API_BASE + '/admin/questions/' + id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    showToast('删除成功', 'success');
+                    loadQuestions();
+                } else {
+                    showToast(data.message || '删除失败', 'error');
+                }
+            } catch (err) {
+                showToast('网络错误，请稍后重试', 'error');
+            }
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
