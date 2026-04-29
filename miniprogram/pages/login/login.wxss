@@ -1,0 +1,115 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #FFF5EB 0%, #FFF8F3 50%, #FFFFFF 100%);
+  padding: 0 32rpx;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+  padding-bottom: 80rpx;
+}
+
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 32rpx rgba(255, 140, 66, 0.3);
+}
+
+.logo-text {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.slogan {
+  margin-top: 32rpx;
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.login-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-card {
+  width: 100%;
+  margin-bottom: 60rpx;
+}
+
+.icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24rpx;
+}
+
+.icon {
+  font-size: 80rpx;
+}
+
+.welcome-title {
+  display: block;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+.welcome-desc {
+  display: block;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 1.6;
+}
+
+.login-btn {
+  width: 100%;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.privacy {
+  margin-top: 32rpx;
+  display: flex;
+  align-items: center;
+  font-size: 22rpx;
+}
+
+.privacy-text {
+  color: #999999;
+}
+
+.privacy-link {
+  color: #FF8C42;
+}
+
+.login-footer {
+  padding: 40rpx 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-text {
+  font-size: 24rpx;
+  color: #CCCCCC;
+}

@@ -1,0 +1,83 @@
+<view class="calendar-container">
+  <view class="calendar-header">
+    <view class="nav-btn" bindtap="prevMonth">
+      <text class="nav-icon">◀</text>
+    </view>
+    <view class="month-display">
+      <text class="year-text">{{currentYear}}年</text>
+      <text class="month-text">{{currentMonth}}月</text>
+    </view>
+    <view class="nav-btn" bindtap="nextMonth">
+      <text class="nav-icon">▶</text>
+    </view>
+  </view>
+
+  <view class="calendar-card warm-card">
+    <view class="week-days">
+      <view class="week-day" wx:for="{{weekDays}}" wx:key="index">
+        <text class="week-day-text {{index == 0 || index == 6 ? 'weekend' : ''}}">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="calendar-days">
+      <view 
+        class="day-item {{item.isCurrentMonth ? '' : 'other-month'}} {{item.isToday ? 'today' : ''}} {{item.hasAnswered ? 'answered' : ''}}"
+        wx:for="{{calendarDays}}" 
+        wx:key="date"
+        bindtap="selectDay"
+        data-date="{{item.date}}"
+        data-has-answered="{{item.hasAnswered}}"
+        data-answer-id="{{item.answerId}}"
+      >
+        <text class="day-number">{{item.day}}</text>
+        <view class="day-check" wx:if="{{item.hasAnswered}}">
+          <text class="check-mark">✓</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="calendar-legend">
+    <view class="legend-item">
+      <view class="legend-dot today"></view>
+      <text class="legend-text">今天</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot answered"></view>
+      <text class="legend-text">已回答</text>
+    </view>
+  </view>
+
+  <view class="selected-day-card warm-card" wx:if="{{selectedDayQuestion}}">
+    <view class="selected-day-header">
+      <text class="selected-day-date">{{selectedDayDate}}</text>
+      <view class="answer-status" wx:if="{{selectedDayAnswer}}">
+        <text class="check-icon">✓</text>
+        <text class="answered-text">已回答</text>
+      </view>
+    </view>
+    <view class="selected-question">
+      <text class="question-label">当日问题</text>
+      <text class="question-content">{{selectedDayQuestion.content}}</text>
+    </view>
+    <view class="selected-answer" wx:if="{{selectedDayAnswer}}">
+      <text class="answer-label">我的回答</text>
+      <text class="answer-content" wx:if="{{selectedDayAnswer.content}}">{{selectedDayAnswer.content}}</text>
+      <view class="answer-image-wrapper" wx:if="{{selectedDayAnswer.imageUrl}}">
+        <image class="answer-image" src="{{selectedDayAnswer.imageUrl}}" mode="aspectFill" bindtap="previewImage" data-url="{{selectedDayAnswer.imageUrl}}"></image>
+      </view>
+    </view>
+    <view class="answer-btn-wrapper" wx:else>
+      <button class="go-answer-btn warm-btn" bindtap="goToDayAnswer">
+        去回答
+      </button>
+    </view>
+  </view>
+
+  <view class="empty-card warm-card" wx:else>
+    <view class="empty-content">
+      <text class="empty-icon">📅</text>
+      <text class="empty-text">选择日期查看问题和回答</text>
+    </view>
+  </view>
+</view>

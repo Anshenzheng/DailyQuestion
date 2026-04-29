@@ -1,0 +1,50 @@
+<view class="login-container">
+  <view class="login-header">
+    <view class="logo">
+      <text class="logo-text">DailyQ</text>
+    </view>
+    <text class="slogan">记录每天的小确幸</text>
+  </view>
+
+  <view class="login-content">
+    <view class="welcome-card warm-card">
+      <view class="icon-wrapper">
+        <text class="icon">☀️</text>
+      </view>
+      <text class="welcome-title">欢迎使用 DailyQ</text>
+      <text class="welcome-desc">
+        每天回答一个温暖的问题，记录生活中的美好瞬间
+      </text>
+    </view>
+
+    <button 
+      class="login-btn warm-btn" 
+      open-type="getUserInfo" 
+      bindgetuserinfo="handleLogin"
+      wx:if="{{canIUseGetUserProfile}}"
+      bindtap="getUserProfile"
+    >
+      微信一键登录
+    </button>
+
+    <button 
+      class="login-btn warm-btn" 
+      open-type="getUserInfo" 
+      bindgetuserinfo="handleLogin"
+      wx:else
+    >
+      微信一键登录
+    </button>
+
+    <view class="privacy">
+      <text class="privacy-text">登录即表示同意</text>
+      <text class="privacy-link">《用户协议》</text>
+      <text class="privacy-text">和</text>
+      <text class="privacy-link">《隐私政策》</text>
+    </view>
+  </view>
+
+  <view class="login-footer">
+    <text class="footer-text">温暖你的每一天</text>
+  </view>
+</view>

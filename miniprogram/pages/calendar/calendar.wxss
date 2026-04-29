@@ -1,0 +1,316 @@
+.calendar-container {
+  min-height: 100vh;
+  background-color: #FFF8F3;
+  padding: 32rpx;
+  padding-bottom: 60rpx;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.nav-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 4rpx 12rpx rgba(255, 140, 66, 0.1);
+}
+
+.nav-icon {
+  font-size: 32rpx;
+  color: #FF8C42;
+}
+
+.month-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.year-text {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.month-text {
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-top: 4rpx;
+}
+
+.week-days {
+  display: flex;
+  margin-bottom: 16rpx;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.week-day {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.week-day-text {
+  font-size: 26rpx;
+  color: #666666;
+}
+
+.week-day-text.weekend {
+  color: #FF8C42;
+}
+
+.calendar-days {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.day-item {
+  width: 14.28%;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 8rpx;
+}
+
+.day-item.other-month .day-number {
+  color: #CCCCCC;
+}
+
+.day-item.today {
+  position: relative;
+}
+
+.day-item.today::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80rpx;
+  height: 80rpx;
+  border: 3rpx solid #FF8C42;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.day-item.today .day-number {
+  color: #FF8C42;
+  font-weight: 500;
+}
+
+.day-item.answered {
+  position: relative;
+}
+
+.day-item.answered::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+  border-radius: 50%;
+}
+
+.day-item.answered .day-number {
+  color: #FFFFFF;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+.day-number {
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.day-check {
+  position: absolute;
+  bottom: 8rpx;
+  z-index: 2;
+}
+
+.check-mark {
+  font-size: 20rpx;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  margin: 24rpx 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0 24rpx;
+}
+
+.legend-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+
+.legend-dot.today {
+  border: 3rpx solid #FF8C42;
+}
+
+.legend-dot.answered {
+  background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+}
+
+.legend-text {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.selected-day-card {
+  margin-top: 16rpx;
+}
+
+.selected-day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.selected-day-date {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.answer-status {
+  display: flex;
+  align-items: center;
+}
+
+.answer-status .check-icon {
+  width: 36rpx;
+  height: 36rpx;
+  background: linear-gradient(135deg, #FF8C42 0%, #FFA85A 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8rpx;
+  color: #FFFFFF;
+  font-size: 20rpx;
+}
+
+.answer-status .answered-text {
+  font-size: 26rpx;
+  color: #FF8C42;
+}
+
+.selected-question {
+  padding: 24rpx;
+  background-color: #FFF8F3;
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.question-label {
+  font-size: 24rpx;
+  color: #FF8C42;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.question-content {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 1.6;
+  display: block;
+}
+
+.selected-answer {
+  padding: 24rpx;
+  background-color: #FAFAFA;
+  border-radius: 16rpx;
+}
+
+.answer-label {
+  font-size: 24rpx;
+  color: #999999;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.answer-content {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.8;
+  display: block;
+}
+
+.answer-image-wrapper {
+  margin-top: 16rpx;
+}
+
+.answer-image {
+  width: 100%;
+  height: 360rpx;
+  border-radius: 12rpx;
+}
+
+.answer-btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.go-answer-btn {
+  min-width: 240rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.go-answer-btn::after {
+  border: none;
+}
+
+.empty-card {
+  margin-top: 16rpx;
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+}

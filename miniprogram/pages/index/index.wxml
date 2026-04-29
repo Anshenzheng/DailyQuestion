@@ -1,0 +1,80 @@
+<view class="index-container">
+  <view class="header-section">
+    <view class="date-info">
+      <text class="weekday">{{todayWeekday}}</text>
+      <text class="date">{{todayDate}}</text>
+    </view>
+    <view class="user-info">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill"></image>
+    </view>
+  </view>
+
+  <view class="question-section warm-card" wx:if="{{dailyQuestion}}">
+    <view class="question-header">
+      <text class="question-label">今日问题</text>
+      <text class="question-category">{{categoryText}}</text>
+    </view>
+    <text class="question-content">{{dailyQuestion.content}}</text>
+  </view>
+
+  <view class="question-section warm-card loading-card" wx:else>
+    <view class="loading-content">
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+
+  <view class="answer-section warm-card">
+    <view class="answer-header">
+      <text class="answer-label">{{hasAnswered ? '我的回答' : '写下你的回答'}}</text>
+      <view class="answer-count" wx:if="{{hasAnswered}}">
+        <text class="check-icon">✓</text>
+      </view>
+    </view>
+
+    <view class="answer-content" wx:if="{{hasAnswered && myAnswer}}">
+      <view class="answer-text-section" wx:if="{{myAnswer.content}}">
+        <text class="answer-text">{{myAnswer.content}}</text>
+      </view>
+      <view class="answer-image-section" wx:if="{{myAnswer.imageUrl}}">
+        <image class="answer-image" src="{{myAnswer.imageUrl}}" mode="aspectFill" bindtap="previewImage" data-url="{{myAnswer.imageUrl}}"></image>
+      </view>
+      <view class="answer-actions">
+        <button class="edit-btn warm-btn-outline" bindtap="editAnswer">编辑回答</button>
+      </view>
+    </view>
+
+    <view class="answer-form" wx:else>
+      <textarea 
+        class="answer-textarea" 
+        placeholder="分享你的故事..."
+        value="{{answerContent}}"
+        bindinput="onContentInput"
+        maxlength="500"
+        auto-height
+      ></textarea>
+      
+      <view class="answer-image-preview" wx:if="{{selectedImage}}">
+        <view class="image-wrapper">
+          <image class="preview-image" src="{{selectedImage}}" mode="aspectFill"></image>
+          <view class="remove-btn" bindtap="removeImage">
+            <text class="remove-icon">×</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="answer-actions">
+        <view class="upload-btn" bindtap="chooseImage">
+          <text class="upload-icon">📷</text>
+          <text class="upload-text">添加图片</text>
+        </view>
+        <button class="submit-btn warm-btn" bindtap="submitAnswer" loading="{{submitting}}">
+          {{hasAnswered ? '保存修改' : '提交回答'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view class="tips-section">
+    <text class="tips-text">💡 每天回答一个问题，记录生活的美好</text>
+  </view>
+</view>
