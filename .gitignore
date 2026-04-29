@@ -66,3 +66,42 @@ frontend/.env.*
 *.war
 *.zip
 *.tar.gz
+# 依赖管理
+node_modules/
+
+# 小程序运行生成的文件
+.idea/
+.vscode/
+*.suo
+*.user
+*.sln
+
+# 微信开发者工具生成的文件
+.project
+.tern-port
+.tern-project
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 打包文件
+*.zip
+dist/
+build/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 微信小程序云开发相关
+cloudfunctions/**/node_modules/
+cloudfunctions/**/package-lock.json
